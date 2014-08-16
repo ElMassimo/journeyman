@@ -1,7 +1,7 @@
 require 'journeyman/configuration'
-
-# Internal: Builds and creates objects, using the configuration provided.
 module Journeyman
+
+  # Internal: Builds and creates objects, using the configuration provided.
   class Builder
     extend Forwardable
 

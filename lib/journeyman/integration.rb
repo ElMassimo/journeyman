@@ -1,5 +1,6 @@
-# Internal: Integrations with testing frameworks.
 module Journeyman
+
+  # Internal: Integrations with testing frameworks.
   module Integration
 
     # Internal: Sets up the integration with the framework being used.

@@ -1,6 +1,7 @@
 require 'journeyman/builder'
-
 module Journeyman
+
+  # Internal: Contains all the factory method definition logic.
   module Definition
 
     # Public: Defines a new factory for Journeyman, which consists in a build

@@ -1,5 +1,6 @@
-# Public: Provides a DSL for configuration of the factories.
 module Journeyman
+
+  # Public: Provides a DSL for configuration of the factories.
   class Configuration
 
     METHOD_OPTIONS = [:finder, :builder, :processor]
@@ -9,6 +10,7 @@ module Journeyman
       :static_defaults, :dynamic_defaults, :after_create_callback # Internal
     ]
 
+    # Internal: Name of the factory, and configuration options.
     attr_reader :name, :options
 
     # Public: Receives the name of the factory, and configuration options.

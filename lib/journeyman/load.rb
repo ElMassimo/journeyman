@@ -1,6 +1,9 @@
 module Journeyman
+
+  # Internal: Contains all the file requirement logic, to load the factory definitions.
   module Load
 
+    # Public: Paths that will be loaded expecting factory definitions.
     attr_accessor :factories_paths
 
     def self.extended(journeyman)

@@ -23,7 +23,7 @@ Journeyman allows you to provide the default attributes for creation as the
 return value of the definition block.
 
 ```ruby
-Journeyman.define :album do |c|
+Journeyman.define :album do |t|
   {
     title: 'Wish You Were Here',
     recorded_ago: -> { (Date.today - Date.new(1975, 9, 12)).round / 365 },
@@ -78,16 +78,16 @@ ignore.
 attributes. Specially useful when combined with ignore.
 
 ```ruby
-Journeyman.define :employee do
-  find { |id| Person.find(id) }
+Journeyman.define :employee do |c|
+  c.find { |id| Person.find(id) }
 
-  build { |attrs|
+  c.build { |attrs|
     attrs.delete(:company).new_employee(attrs)
   }
 
-  ignore :work_history
+  c.ignore :work_history
 
-  after_create { |employee, attrs|
+  c.after_create { |employee, attrs|
     attrs[:work_history].each do |history|
       check_references(history)
     end

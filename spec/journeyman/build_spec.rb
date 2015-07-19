@@ -3,41 +3,62 @@ require './spec/support/models/person'
 require './spec/support/models/artist'
 require './spec/support/models/album'
 
-describe 'simple' do
+describe '#build' do
+  describe 'when the factory exists' do
+    # object is invariably not persisted because #build only instantiates
+    Invariant { !object.persisted? }
 
-  Invariant { !object.persisted? }
+    context 'when the factory does not have default attributes' do
+      When(:object) { Journeyman.build(:generic_album) }
+      Then { object.is_a?(Album) }
+    end
 
-  context '#build without_defaults' do
-    When(:object) { Journeyman.build(:no_default) }
-    Then { object.is_a?(Album) }
+    context 'when the factory has default attributes' do
+      When(:object) { Journeyman.build(:person) }
+      Then { object.is_a?(Person) }
+      Then { object.name == 'John Doe' }
+    end
+
+    context 'when the factory has a parent' do
+      When(:object) { Journeyman.build(:musician) }
+      Then { object.is_a?(Person) }
+      And { object.name == 'Jimi Hendrix' }
+      And  { object.password == 'feelthemusic' }
+      And  { object.albums.map(&:title) == ['Are You Experienced?', 'Axxis: Bold as Love', 'Electric Ladyland'] }
+      And  { object.albums.all?(&:persisted?) }
+    end
+
+    context 'when using a custom builder' do
+      Given do
+        expect(Band).to receive(:create_from).and_return { |attrs| Band.new(attrs) }
+      end
+      When(:object) { Journeyman.build(:band, name: 'Deep Purple') }
+      Then { object.name == 'Deep Purple' }
+      And  { object.musicians.nil? }
+    end
+
+    context '#build with processor' do
+      When(:object) { Journeyman.build(:person, first_name: 'Eddie', last_name: 'Vedder') }
+      Then { object.name == 'Eddie Vedder' }
+      And  { object.first_name.nil? }
+      And  { object.last_name.nil? }
+    end
   end
 
-  context '#build default' do
-    When(:object) { Journeyman.build(:person) }
+  context 'when the factory does not exist' do
+    When(:object) { Journeyman.build(:some_nonsense) }
+    Then { expect(object).to have_failed(Journeyman::MissingFactoryError) }
+  end
+end
+
+describe 'dynamically generated helper methods' do
+  context 'simple' do
+    When(:object) { build_person }
     Then { object.name == 'John Doe' }
   end
 
-  context '#build parent' do
-    When(:object) { Journeyman.build(:musician) }
-    Then { object.name == 'Jimi Hendrix' }
-    And  { object.password == 'feelthemusic' }
-    And  { object.albums.map(&:title) == ['Are You Experienced?', 'Axxis: Bold as Love', 'Electric Ladyland'] }
-    And  { object.albums.all?(&:persisted?) }
-  end
-
-  context '#build with custom builder' do
-    Given do
-      expect(Band).to receive(:create_from).and_return { |attrs| Band.new(attrs) }
-    end
-    When(:object) { build_band(name: 'Deep Purple') }
-    Then { object.name == 'Deep Purple' }
-    And  { object.musicians.nil? }
-  end
-
-  context '#build with processor' do
-    When(:object) { build_person(first_name: 'Eddie', last_name: 'Vedder') }
-    Then { object.name == 'Eddie Vedder' }
-    And  { object.first_name.nil? }
-    And  { object.last_name.nil? }
+  context 'with attributes' do
+    When(:object) { build_person(first_name: 'Jane', last_name: 'Doe') }
+    Then { object.name == 'Jane Doe' }
   end
 end

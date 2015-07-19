@@ -39,7 +39,3 @@ def stub_class_or_module(full_name, kind, &block)
     end
   end
 end
-
-RSpec.configure do |config|
-  config.color = true
-end

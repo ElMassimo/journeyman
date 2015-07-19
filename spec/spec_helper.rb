@@ -2,8 +2,10 @@ require 'rspec/given'
 require 'pry'
 require 'pry-stack_explorer'
 
-require 'codeclimate-test-reporter'
-CodeClimate::TestReporter.start
+if ENV['CODECLIMATE_REPO_TOKEN']
+  require 'codeclimate-test-reporter'
+  CodeClimate::TestReporter.start
+end
 
 require './lib/journeyman'
 Journeyman.load(self, framework: :rspec)

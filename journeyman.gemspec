@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.homepage = %q{https://github.com/ElMassimo/journeyman}
 
   s.platform = Gem::Platform::RUBY
-  s.required_ruby_version = '>=1.9.3'
+  s.required_ruby_version = '>=2.0.0'
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
 end

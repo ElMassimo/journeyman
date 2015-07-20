@@ -25,6 +25,8 @@ describe '#build' do
       And { object.name == 'Jimi Hendrix' }
       And  { object.password == 'feelthemusic' }
       And  { object.albums.map(&:title) == ['Are You Experienced?', 'Axxis: Bold as Love', 'Electric Ladyland'] }
+      # FIXME: seems kind of awkward that we are only building the musician, but persisting his albums
+      # is that expected? @ElMassimo
       And  { object.albums.all?(&:persisted?) }
     end
 

@@ -1,4 +1,6 @@
 require 'journeyman/configuration'
+require 'journeyman/missing_factory_error'
+
 module Journeyman
 
   # Internal: Builds and creates objects, using the configuration provided.

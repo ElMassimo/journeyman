@@ -6,5 +6,5 @@ Journeyman.define :album, finder_attribute: :title do |c|
   }
 end
 
-Journeyman.define :no_default, model: Album do |c|
+Journeyman.define :generic_album, model: Album do
 end

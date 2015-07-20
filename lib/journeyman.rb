@@ -40,6 +40,8 @@ module Journeyman
   # Public: Convenience accessor for build methods.
   def self.build(name, *args, &block)
     @context.send("build_#{name}", *args, &block)
+  rescue NoMethodError
+    raise MissingFactoryError, "factory is not defined: #{name}"
   end
 
   # Public: Convenience accessor for create methods.

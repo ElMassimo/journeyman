@@ -52,3 +52,15 @@ describe '#build' do
     Then { expect(object).to have_failed(Journeyman::MissingFactoryError) }
   end
 end
+
+describe 'dynamically generated helper methods' do
+  context 'simple' do
+    When(:object) { build_person }
+    Then { object.name == 'John Doe' }
+  end
+
+  context 'with attributes' do
+    When(:object) { build_person(first_name: 'Jane', last_name: 'Doe') }
+    Then { object.name == 'Jane Doe' }
+  end
+end

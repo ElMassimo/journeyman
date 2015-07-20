@@ -47,6 +47,8 @@ module Journeyman
   # Public: Convenience accessor for create methods.
   def self.create(name, *args, &block)
     @context.send("create_#{name}", *args, &block)
+  rescue NoMethodError
+    raise MissingFactoryError
   end
 
   # Public: Convenience accessor for default methods.

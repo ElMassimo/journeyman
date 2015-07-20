@@ -3,9 +3,14 @@ require './spec/support/models/person'
 require './spec/support/models/artist'
 require './spec/support/models/album'
 
-describe 'simple' do
+# FIXME: please clarify what is this functionality for?
+# is it for finding factories by referencing one of the factories default properties?
+# is it for finding objects which have previously been instantiated by a factory?
+# is it for building objects? (that's what it seems to be doing here)
+#   if so, how is it different from build?
+describe '#find' do
 
-  context '#find default' do
+  context 'default' do
     Given do
       allow(Musician).to receive(:find_by).and_return { |attrs| Musician.new(attrs) }
     end

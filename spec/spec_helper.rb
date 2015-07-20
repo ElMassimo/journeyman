@@ -1,4 +1,5 @@
 require 'rspec/given'
+require 'stub_constant'
 require 'pry'
 require 'pry-stack_explorer'
 

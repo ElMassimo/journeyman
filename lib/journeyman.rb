@@ -40,25 +40,26 @@ module Journeyman
 
   # Public: Convenience accessor for build methods.
   def self.build(name, *args, &block)
-    if @context.respond_to?("build_#{name}")
-      @context.send("build_#{name}", *args, &block)
-    else
-      raise MissingFactoryError, "'#{name}' factory is not defined"
-    end
+    send(name, "build_#{name}", *args, &block)
   end
 
   # Public: Convenience accessor for create methods.
   def self.create(name, *args, &block)
-    if @context.respond_to?("create_#{name}")
-      @context.send("create_#{name}", *args, &block)
-    else
-      raise MissingFactoryError, "'#{name}' factory is not defined"
-    end
+    send(name, "create_#{name}", *args, &block)
   end
 
   # Public: Convenience accessor for default methods.
   def self.default(name)
-    @context.send("default_#{name}")
+    send(name, "default_#{name}")
+  end
+
+  # Internal: Call a factory method in the context.
+  def self.send(factory_name, method_name, *args, &block)
+    if @context.respond_to?(method_name)
+      @context.send(method_name, *args, &block)
+    else
+      raise MissingFactoryError, "'#{factory_name}' factory is not defined"
+    end
   end
 
   # Internal: Executes a proc in the context that is currently attached.

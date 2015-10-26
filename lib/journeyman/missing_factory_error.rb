@@ -1,3 +1,4 @@
 module Journeyman
-  class MissingFactoryError < StandardError; end
+  class MissingFactoryError < StandardError
+  end
 end

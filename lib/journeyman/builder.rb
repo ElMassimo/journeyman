@@ -1,5 +1,4 @@
 require 'journeyman/configuration'
-require 'journeyman/missing_factory_error'
 
 module Journeyman
 

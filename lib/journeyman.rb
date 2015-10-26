@@ -1,6 +1,7 @@
 require 'journeyman/load'
 require 'journeyman/integration'
 require 'journeyman/definition'
+require 'journeyman/missing_factory_error'
 
 # Public: Allows to define and use factory methods. It is capable of providing
 # `build`, `create`, `find`, and `default` methods, the last two are optional.
@@ -39,16 +40,20 @@ module Journeyman
 
   # Public: Convenience accessor for build methods.
   def self.build(name, *args, &block)
-    @context.send("build_#{name}", *args, &block)
-  rescue NoMethodError
-    raise MissingFactoryError, "factory is not defined: #{name}"
+    if @context.respond_to?("build_#{name}")
+      @context.send("build_#{name}", *args, &block)
+    else
+      raise MissingFactoryError, "'#{name}' factory is not defined"
+    end
   end
 
   # Public: Convenience accessor for create methods.
   def self.create(name, *args, &block)
-    @context.send("create_#{name}", *args, &block)
-  rescue NoMethodError
-    raise MissingFactoryError
+    if @context.respond_to?("create_#{name}")
+      @context.send("create_#{name}", *args, &block)
+    else
+      raise MissingFactoryError, "'#{name}' factory is not defined"
+    end
   end
 
   # Public: Convenience accessor for default methods.
